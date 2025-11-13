@@ -1,0 +1,117 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <limits>
+#include <sstream> // para validar la nota
+using namespace std;
+
+struct Alumno {
+    string nombre;
+    float nota;
+};
+
+void ingresarAlumno(vector<Alumno> &alumnos) {
+    Alumno a;
+    cout << "Ingrese nombre del alumno: ";
+    // Usamos getline directamente (suponiendo que el buffer ya fue limpiado antes de llamar a esta función)
+    getline(cin, a.nombre);
+    // Validar la nota leyendo una línea completa y parseando
+    string linea;
+    while (true) {
+        cout << "Ingrese nota: ";
+        if (!getline(cin, linea)) { // protección ante EOF inesperado
+            cout << "Error de entrada.\n";
+            return;
+        }
+        stringstream ss(linea);
+        if (ss >> a.nota) {
+            // opcional: validar rango de nota (ej.: 0-100)
+            break;
+        } else {
+            cout << "Nota invalida. Ingrese un numero, por ejemplo: 78.5\n";
+        }
+    }
+    alumnos.push_back(a);
+    cout << "Alumno agregado correctamente.\n";
+}
+
+void listarAlumnos(const vector<Alumno> &alumnos) {
+    if (alumnos.empty()) {
+        cout << "No hay alumnos registrados.\n";
+        return;
+    }
+    cout << "\n--- Lista de Alumnos ---\n";
+    for (const auto &a : alumnos) {
+        cout << "Nombre: " << a.nombre << " | Nota: " << a.nota << endl;
+    }
+}
+
+void ordenarAlfabeticamente(vector<Alumno> &alumnos) {
+    sort(alumnos.begin(), alumnos.end(), [](const Alumno &a, const Alumno &b) {
+        return a.nombre < b.nombre;
+    });
+    cout << "Alumnos ordenados alfabeticamente.\n";
+}
+
+void mejorNota(const vector<Alumno> &alumnos) {
+    if (alumnos.empty()) {
+        cout << "No hay alumnos registrados.\n";
+        return;
+    }
+    auto mejor = max_element(alumnos.begin(), alumnos.end(),
+                             [](const Alumno &a, const Alumno &b) {
+                                 return a.nota < b.nota;
+                             });
+    cout << "La mejor nota es de " << mejor->nombre
+         << " con " << mejor->nota << endl;
+}
+
+void promedioNotas(const vector<Alumno> &alumnos) {
+    if (alumnos.empty()) {
+        cout << "No hay alumnos registrados.\n";
+        return;
+    }
+    float suma = 0;
+    for (const auto &a : alumnos) suma += a.nota;
+    float promedio = suma / alumnos.size();
+    cout << fixed << setprecision(2);
+    cout << "El promedio de notas es: " << promedio << endl;
+}
+
+int main() {
+    vector<Alumno> alumnos;
+    int opcion;
+
+    do {
+        cout << "\n=== MENU DE ALUMNOS ===\n";
+        cout << "1) Ingresar un alumno y su nota\n";
+        cout << "2) Listar alumnos\n";
+        cout << "3) Ordenar alfabeticamente\n";
+        cout << "4) Mostrar mejor nota\n";
+        cout << "5) Mostrar promedio de notas\n";
+        cout << "0) Salir\n";
+        cout << "Seleccione una opcion: ";
+        if (!(cin >> opcion)) {
+            // Si el usuario escribe algo no numérico
+            cout << "Entrada invalida. Ingrese un numero.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        // limpiar resto de la línea para que getline en ingresarAlumno funcione correctamente
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (opcion) {
+            case 1: ingresarAlumno(alumnos); break;
+            case 2: listarAlumnos(alumnos); break;
+            case 3: ordenarAlfabeticamente(alumnos); break;
+            case 4: mejorNota(alumnos); break;
+            case 5: promedioNotas(alumnos); break;
+            case 0: cout << "Saliendo del programa...\n"; break;
+            default: cout << "Opcion invalida.\n"; break;
+        }
+    } while (opcion != 0);
+
+    return 0;
+}
