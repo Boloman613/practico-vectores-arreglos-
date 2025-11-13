@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Ingrese la cantidad de numeros de Fibonacci a generar: ";
+    cin >> n;
+
+    vector<long long> fibonacci; // usamos long long por si los numeros crecen grandes
+
+    if (n <= 0) {
+        cout << "Debe ingresar un numero positivo." << endl;
+        return 0;
+    }
+
+    // Casos base
+    if (n >= 1) fibonacci.push_back(0);
+    if (n >= 2) fibonacci.push_back(1);
+
+    // Generar la serie
+    for (int i = 2; i < n; i++) {
+        fibonacci.push_back(fibonacci[i - 1] + fibonacci[i - 2]);
+    }
+
+    // Mostrar el vector
+    cout << "Serie de Fibonacci (" << n << " numeros): ";
+    for (int i = 0; i < n; i++) {
+        cout << fibonacci[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
