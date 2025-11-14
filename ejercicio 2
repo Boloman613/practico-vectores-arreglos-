@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <limits> 
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Ingrese la cantidad de elementos del vector: ";
+    cin >> n;
+
+    if(n <= 0) {
+        cout << "El vector debe tener al menos un elemento.\n";
+        return 0;
+    }
+
+    vector<double> v(n); 
+
+    for(int i = 0; i < n; i++) {
+        cout << "v[" << i << "] = ";
+        cin >> v[i];
+    }
+
+    double minimo = numeric_limits<double>::max();
+
+    for(double x : v) {
+        if(x < minimo) {
+            minimo = x;
+        }
+    }
+
+    cout << "\nEl valor minimo del vector es: " << minimo << endl;
+
+    return 0;
+}
+
