@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Ingrese el tamaño del vector: ");
+    scanf("%d", &n);
+
+    float A[n];
+
+    for(int i = 0; i < n; i++) {
+        printf("A[%d] = ", i);
+        scanf("%f", &A[i]);
+    }
+
+    if(n < 2) {
+        printf("No se puede calcular diferencia con menos de 2 elementos.\n");
+        return 0;
+    }
+
+    float maxDif = A[1] - A[0];
+    if (maxDif < 0) maxDif = -maxDif;  
+
+    for(int i = 1; i < n - 1; i++) {
+        float dif = A[i+1] - A[i];
+        if(dif < 0) dif = -dif;
+
+        if(dif > maxDif)
+            maxDif = dif;
+    }
+
+    printf("\nLa diferencia mas grande entre elementos consecutivos es: %.2f\n", maxDif);
+
+    return 0;
+}
