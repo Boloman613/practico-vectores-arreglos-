@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <iomanip> 
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Ingrese la cantidad de elementos del vector: ";
+    cin >> n;
+
+    if(n <= 0) {
+        cout << "El vector debe tener al menos un elemento.\n";
+        return 0;
+    }
+
+    vector<double> v(n);
+
+    for(int i = 0; i < n; i++) {
+        cout << "v[" << i << "] = ";
+        cin >> v[i];
+    }
+
+    double suma = 0;
+
+    for(double x : v) {
+        suma += x;
+    }
+
+    double promedio = suma / n;
+
+    cout << fixed << setprecision(2);
+    cout << "\nEl promedio de los valores es: " << promedio << endl;
+
+    return 0;
+}
