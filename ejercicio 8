@@ -1,34 +1,31 @@
-#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <cmath>   
+using namespace std;
 
 int main() {
     int n;
-    printf("Ingrese el tamaño del vector: ");
-    scanf("%d", &n);
+    cout << "Ingrese la cantidad de elementos del vector: ";
+    cin >> n;
 
-    float A[n];
+    vector<double> A(n);
 
-    for(int i = 0; i < n; i++) {
-        printf("A[%d] = ", i);
-        scanf("%f", &A[i]);
+    for (int i = 0; i < n; i++) {
+        cout << "A[" << i << "] = ";
+        cin >> A[i];
     }
 
-    if(n < 2) {
-        printf("No se puede calcular diferencia con menos de 2 elementos.\n");
-        return 0;
+    double mayorDif = 0;
+
+    for (int i = 0; i < n - 1; i++) {
+        double dif = abs(A[i+1] - A[i]);
+        if (dif > mayorDif)
+            mayorDif = dif;
     }
 
-    float maxDif = A[1] - A[0];
-    if (maxDif < 0) maxDif = -maxDif;  
-
-    for(int i = 1; i < n - 1; i++) {
-        float dif = A[i+1] - A[i];
-        if(dif < 0) dif = -dif;
-
-        if(dif > maxDif)
-            maxDif = dif;
-    }
-
-    printf("\nLa diferencia mas grande entre elementos consecutivos es: %.2f\n", maxDif);
+    cout << "\nLa mayor diferencia entre elementos consecutivos es: "
+         << mayorDif << endl;
 
     return 0;
 }
+
