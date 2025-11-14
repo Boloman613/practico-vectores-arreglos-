@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Ingrese la cantidad de alumnos: ";
+    cin >> n;
+
+    vector<string> alumnos(n);
+    vector<float> notas(n);
+
+    cin.ignore(); 
+
+    for (int i = 0; i < n; i++) {
+        cout << "Nombre del alumno " << i + 1 << ": ";
+        getline(cin, alumnos[i]);
+        cout << "Nota de " << alumnos[i] << ": ";
+        cin >> notas[i];
+        cin.ignore();
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (notas[j] > notas[i]) {
+                float tempNota = notas[i];
+                notas[i] = notas[j];
+                notas[j] = tempNota;
+
+                string tempNombre = alumnos[i];
+                alumnos[i] = alumnos[j];
+                alumnos[j] = tempNombre;
+            }
+        }
+    }
+
+    cout << "\n=== Tres mejores notas ===\n";
+    int limite = min(3, n); 
+
+    for (int i = 0; i < limite; i++) {
+        cout << i + 1 << ") " << alumnos[i] 
+             << " - Nota: " << notas[i] << endl;
+    }
+
+    return 0;
+}
